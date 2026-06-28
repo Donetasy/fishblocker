@@ -90,7 +90,7 @@ public class Fishblocker implements ModInitializer {
                 } else {
                     client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
                     recastPending = false;
-                    waitTicks = cfgWaitRecast; // Nutzt die Config-Variable
+                    waitTicks = cfgWaitRecast; 
                 }
                 return;
             }
