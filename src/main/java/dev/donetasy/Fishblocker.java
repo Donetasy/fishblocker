@@ -13,15 +13,23 @@ public class Fishblocker implements ModInitializer {
 
     private boolean debugEnabled = false;
 
+
     private int stableTicks = 0;
     private boolean armed = false;
     private int waitTicks = 0;
     private boolean recastPending = false;
     private FishingHook lastHook = null;
 
+    private double Sensitivity = 0.015;
+
+    private double cfgSensitivity = 0.015;
+
+
     private int cfgStableTicks = 1;
 
+
     private int cfgWaitCatch = 20;
+
 
     private int cfgWaitRecast = 15;
 
@@ -41,13 +49,13 @@ public class Fishblocker implements ModInitializer {
                                 return 1;
                             })
                     )
-                    // /fishblocker config 
+                    // /fishblocker config
                     .then(ClientCommandManager.literal("config")
-                            // /fishblocker config stableTicks <wert>
+                            // /fishblocker config stableTicks <int>
                             .then(ClientCommandManager.literal("stableTicks")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(1))
                                             .executes(context -> {
-                                                cfgStableTicks = IntegerArgumentType.getInteger(context, "wert");
+                                                cfgStableTicks = IntegerArgumentType.getInteger(context, "int");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] set StableTick to  " + cfgStableTicks + " Ticks."), false);
                                                 return 1;
@@ -76,6 +84,17 @@ public class Fishblocker implements ModInitializer {
                                             })
                                     )
                             )
+                            // /fishblocker config waitRecast <doubble>
+                            .then(ClientCommandManager.literal("Sensitivity")
+                                    .then(ClientCommandManager.argument("doubble", IntegerArgumentType.integer(0))
+                                            .executes(context -> {
+                                                cfgSensitivity = IntegerArgumentType.getInteger(context, "int");
+                                                context.getSource().getPlayer().displayClientMessage(
+                                                        Component.literal("§a[Fishblocker] Set Sensitivity to " + cfgSensitivity + " Ymovement."), false);
+                                                return 1;
+                                            })
+                                    )
+                            )
                     )
             );
         });
@@ -90,7 +109,7 @@ public class Fishblocker implements ModInitializer {
                 } else {
                     client.gameMode.useItem(client.player, InteractionHand.MAIN_HAND);
                     recastPending = false;
-                    waitTicks = cfgWaitRecast; 
+                    waitTicks = cfgWaitRecast;
                 }
                 return;
             }
@@ -130,7 +149,8 @@ public class Fishblocker implements ModInitializer {
             boolean inFluid = bobber.isInWater() || bobber.isInLava();
             double motionY = bobber.getDeltaMovement().y;
 
-            boolean stable = inFluid && Math.abs(motionY) < 0.012;
+
+            boolean stable = inFluid && Math.abs(motionY) < Sensitivity;
             boolean drop = motionY < -0.02;
 
             if (stable) {
