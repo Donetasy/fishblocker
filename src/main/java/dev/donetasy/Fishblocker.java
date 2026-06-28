@@ -1,5 +1,6 @@
 package dev.donetasy;
 
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -84,13 +85,15 @@ public class Fishblocker implements ModInitializer {
                                             })
                                     )
                             )
-                            // /fishblocker config waitRecast <doubble>
+                            // /fishblocker config waitRecast <double>
                             .then(ClientCommandManager.literal("Sensitivity")
-                                    .then(ClientCommandManager.argument("doubble", IntegerArgumentType.integer(0))
+                                    .then(ClientCommandManager.argument("double", DoubleArgumentType.doubleArg(0.0))
                                             .executes(context -> {
-                                                cfgSensitivity = IntegerArgumentType.getInteger(context, "int");
+                                                cfgSensitivity = DoubleArgumentType.getDouble(context, "double");
                                                 context.getSource().getPlayer().displayClientMessage(
-                                                        Component.literal("§a[Fishblocker] Set Sensitivity to " + cfgSensitivity + " Ymovement."), false);
+                                                        Component.literal("§a[Fishblocker] Set Sensitivity to " + cfgSensitivity + " Y movement."),
+                                                        false
+                                                );
                                                 return 1;
                                             })
                                     )
