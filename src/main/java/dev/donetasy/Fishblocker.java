@@ -13,21 +13,16 @@ public class Fishblocker implements ModInitializer {
 
     private boolean debugEnabled = false;
 
-    // --- ZUSTANDS-VARIABLEN ---
     private int stableTicks = 0;
     private boolean armed = false;
     private int waitTicks = 0;
     private boolean recastPending = false;
     private FishingHook lastHook = null;
 
-    // --- KONFIGURATIONS-VARIABLEN (Per Command änderbar) ---
-    // In deinem alten Code war "stableTicks > 0.1", was bei einem Integer >= 1 bedeutet.
     private int cfgStableTicks = 1;
 
-    // War vorher fest auf 20 (Wartezeit VOR dem erneuten Auswerfen)
     private int cfgWaitCatch = 20;
 
-    // War vorher fest auf 15 (Wartezeit NACH dem Auswerfen)
     private int cfgWaitRecast = 15;
 
     @Override
@@ -46,7 +41,7 @@ public class Fishblocker implements ModInitializer {
                                 return 1;
                             })
                     )
-                    // /fishblocker config ...
+                    // /fishblocker config 
                     .then(ClientCommandManager.literal("config")
                             // /fishblocker config stableTicks <wert>
                             .then(ClientCommandManager.literal("stableTicks")
@@ -59,22 +54,22 @@ public class Fishblocker implements ModInitializer {
                                             })
                                     )
                             )
-                            // /fishblocker config waitCatch <wert>
+                            // /fishblocker config waitCatch <int>
                             .then(ClientCommandManager.literal("waitCatch")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(0))
                                             .executes(context -> {
-                                                cfgWaitCatch = IntegerArgumentType.getInteger(context, "wert");
+                                                cfgWaitCatch = IntegerArgumentType.getInteger(context, "int");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] Set WaitCatch to " + cfgWaitCatch + " Ticks ."), false);
                                                 return 1;
                                             })
                                     )
                             )
-                            // /fishblocker config waitRecast <wert>
+                            // /fishblocker config waitRecast <int>
                             .then(ClientCommandManager.literal("waitRecast")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(0))
                                             .executes(context -> {
-                                                cfgWaitRecast = IntegerArgumentType.getInteger(context, "wert");
+                                                cfgWaitRecast = IntegerArgumentType.getInteger(context, "int");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] Set WaitRecast to " + cfgWaitRecast + " Ticks."), false);
                                                 return 1;
@@ -135,14 +130,12 @@ public class Fishblocker implements ModInitializer {
             boolean inFluid = bobber.isInWater() || bobber.isInLava();
             double motionY = bobber.getDeltaMovement().y;
 
-            // Nutzt inFluid anstelle von inWater
             boolean stable = inFluid && Math.abs(motionY) < 0.012;
             boolean drop = motionY < -0.02;
 
             if (stable) {
                 stableTicks++;
 
-                // Nutzt nun die Config-Variable statt fest "> 0.1"
                 if (stableTicks >= cfgStableTicks) {
                     armed = true;
                 }
@@ -163,7 +156,7 @@ public class Fishblocker implements ModInitializer {
                 lastHook = null;
 
                 recastPending = true;
-                waitTicks = cfgWaitCatch; // Nutzt die Config-Variable
+                waitTicks = cfgWaitCatch;
             }
         });
     }
