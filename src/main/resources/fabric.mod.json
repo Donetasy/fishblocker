@@ -8,8 +8,8 @@
 		"donetasy"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Donetasy/fishblocker",
+		"sources": "https://github.com/Donetasy/fishblocker"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/Fishblocker/icon.png",
