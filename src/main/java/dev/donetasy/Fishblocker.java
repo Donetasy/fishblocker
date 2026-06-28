@@ -56,7 +56,7 @@ public class Fishblocker implements ModInitializer {
                             .then(ClientCommandManager.literal("stableTicks")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(1))
                                             .executes(context -> {
-                                                cfgStableTicks = IntegerArgumentType.getInteger(context, "int");
+                                                cfgStableTicks = IntegerArgumentType.getInteger(context, "wert");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] set StableTick to  " + cfgStableTicks + " Ticks."), false);
                                                 return 1;
@@ -67,7 +67,7 @@ public class Fishblocker implements ModInitializer {
                             .then(ClientCommandManager.literal("waitCatch")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(0))
                                             .executes(context -> {
-                                                cfgWaitCatch = IntegerArgumentType.getInteger(context, "int");
+                                                cfgWaitCatch = IntegerArgumentType.getInteger(context, "wert");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] Set WaitCatch to " + cfgWaitCatch + " Ticks ."), false);
                                                 return 1;
@@ -78,14 +78,14 @@ public class Fishblocker implements ModInitializer {
                             .then(ClientCommandManager.literal("waitRecast")
                                     .then(ClientCommandManager.argument("wert", IntegerArgumentType.integer(0))
                                             .executes(context -> {
-                                                cfgWaitRecast = IntegerArgumentType.getInteger(context, "int");
+                                                cfgWaitRecast = IntegerArgumentType.getInteger(context, "wert");
                                                 context.getSource().getPlayer().displayClientMessage(
                                                         Component.literal("§a[Fishblocker] Set WaitRecast to " + cfgWaitRecast + " Ticks."), false);
                                                 return 1;
                                             })
                                     )
                             )
-                            // /fishblocker config waitRecast <double>
+                            // /fishblocker config Sensitivity <double>
                             .then(ClientCommandManager.literal("Sensitivity")
                                     .then(ClientCommandManager.argument("double", DoubleArgumentType.doubleArg(0.0))
                                             .executes(context -> {
