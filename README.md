@@ -43,6 +43,7 @@ The mod includes configurable options such as:
 - WaitRecast
 - WaitCatch
 - StableTicks
+- Sensitivity
 
 Configuration values can be adjusted to suit your preferences.
 
