@@ -20,10 +20,13 @@ public class Fishblocker implements ModInitializer {
     private int waitTicks = 0;
     private boolean recastPending = false;
     private FishingHook lastHook = null;
+    private double Ydrop = 0.03;
 
     private double Sensitivity = 0.015;
 
     private double cfgSensitivity = 0.015;
+
+    private double cfgYdrop = 0.03;
 
 
     private int cfgStableTicks = 1;
@@ -98,6 +101,19 @@ public class Fishblocker implements ModInitializer {
                                             })
                                     )
                             )
+                            // /fishblocker config Ydrop <double>
+                            .then(ClientCommandManager.literal("Ydrop")
+                                    .then(ClientCommandManager.argument("double", DoubleArgumentType.doubleArg(0.0))
+                                            .executes(context -> {
+                                                cfgYdrop = DoubleArgumentType.getDouble(context, "double");
+                                                context.getSource().getPlayer().displayClientMessage(
+                                                        Component.literal("§a[Fishblocker] Set Ydrop to " + cfgYdrop + " Y movement."),
+                                                        false
+                                                );
+                                                return 1;
+                                            })
+                                    )
+                            )
                     )
             );
         });
@@ -154,7 +170,7 @@ public class Fishblocker implements ModInitializer {
 
 
             boolean stable = inFluid && Math.abs(motionY) < Sensitivity;
-            boolean drop = motionY < -0.02;
+            boolean drop = motionY < -Ydrop;
 
             if (stable) {
                 stableTicks++;
